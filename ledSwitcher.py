@@ -2,15 +2,17 @@ import RPi.GPIO as GPIO
 import tkinter as tk
 
 
+relayPin = 26
+
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(21, GPIO.OUT)
+GPIO.setup(relayPin, GPIO.OUT)
 
 def ledOn(event):
-    GPIO.output(21, GPIO.HIGH)
+    GPIO.output(relayPin, GPIO.HIGH)
     print('ON')
 
 def ledOff(event):
-    GPIO.output(21, GPIO.LOW)
+    GPIO.output(relayPin, GPIO.LOW)
     print('OFF')
 
 def quitApp(event):
