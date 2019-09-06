@@ -2,40 +2,44 @@ import RPi.GPIO as GPIO
 import tkinter as tk
 
 
-relayPin = 26
+relayPins = [26, 6, 22, 4]
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(relayPin, GPIO.OUT)
+GPIO.setup(relayPins, GPIO.OUT)
 
-def ledOn(event):
-    GPIO.output(relayPin, GPIO.HIGH)
-    print('ON')
+def turnOffAll():
+    GPIO.output(relayPins, GPIO.LOW)
 
-def ledOff(event):
-    GPIO.output(relayPin, GPIO.LOW)
-    print('OFF')
+def ledOn(num):
+    GPIO.output(relayPins[num], GPIO.HIGH)
+
+def ledOff(num):
+    GPIO.output(relayPins[num], GPIO.LOW)
 
 def quitApp(event):
     GPIO.cleanup()
     import sys; sys.exit()
 
 
+turnOffAll()
+
 root = tk.Tk()
-frame = tk.Frame()
 root.title('Switcher')
+root.geometry('{}x{}'.format(360, 180))
+root.grid_rowconfigure(0, weight = 1)
+root.grid_columnconfigure(0, weight = 1)
 
-widget00 = tk.Button(frame, text = 'ON')
-widget00.bind('<Button-1>', ledOn)
-widget00.pack(padx = 72, pady = 24)
+left = tk.Frame(root, bg = 'pink', width = 120, height = 180, padx = 30, pady = 60)
+center = tk.Frame(root, bg = 'gray', width = 120, height = 180)
+right = tk.Frame(root, bg = 'lavender', width = 120, height = 180)
+left.grid(row = 0, column = 0)
+center.grid(row = 0, column = 1)
+right.grid(row = 0, column = 2)
 
-widget01 = tk.Button(frame, text = 'OFF')
-widget01.bind('<Button-1>', ledOff)
-widget01.pack(padx = 72, pady = 12)
+on_00 = tk.Button(left, text = '00_ON', command = lambda: ledOn(0))
+off_00 = tk.Button(left, text = '00_OFF', command = lambda: ledOff(0))
+on_00.grid(row = 0, column = 0)
+off_00.grid(row = 1, column = 0, pady = 24)
 
-widget02 = tk.Button(frame, text = 'QUIT')
-widget02.bind('<Button-1>', quitApp)
-widget02.pack(padx = 72, pady = 48)
-
-frame.pack()
 root.mainloop()
 GPIO.cleanup()
