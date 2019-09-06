@@ -1,3 +1,4 @@
+# https://stackoverflow.com/questions/34276663/tkinter-gui-layout-using-frames-and-grid
 import RPi.GPIO as GPIO
 import tkinter as tk
 
@@ -25,13 +26,13 @@ turnOffAll()
 
 root = tk.Tk()
 root.title('Switcher')
-root.geometry('{}x{}'.format(360, 180))
+root.geometry('{}x{}'.format(400, 200))
 root.grid_rowconfigure(0, weight = 1)
-root.grid_columnconfigure(0, weight = 1)
+root.grid_columnconfigure(0, weight = 0)
 
 left = tk.Frame(root, bg = 'pink', width = 120, height = 180, padx = 30, pady = 60)
-center = tk.Frame(root, bg = 'gray', width = 120, height = 180)
-right = tk.Frame(root, bg = 'lavender', width = 120, height = 180)
+center = tk.Frame(root, bg = 'gray', width = 120, height = 180, padx = 30, pady = 60)
+right = tk.Frame(root, bg = 'lavender', width = 120, height = 180, padx = 30, pady = 60)
 left.grid(row = 0, column = 0)
 center.grid(row = 0, column = 1)
 right.grid(row = 0, column = 2)
@@ -40,6 +41,16 @@ on_00 = tk.Button(left, text = '00_ON', command = lambda: ledOn(0))
 off_00 = tk.Button(left, text = '00_OFF', command = lambda: ledOff(0))
 on_00.grid(row = 0, column = 0)
 off_00.grid(row = 1, column = 0, pady = 24)
+
+on_01 = tk.Button(center, text = '01_ON', command = lambda: ledOn(1))
+off_01 = tk.Button(center, text = '01_OFF', command = lambda: ledOff(1))
+on_01.grid(row = 0, column = 0)
+off_01.grid(row = 1, column = 0, pady = 24)
+
+on_02 = tk.Button(right, text = '02_ON', command = lambda: ledOn(2))
+off_02 = tk.Button(right, text = '02_OFF', command = lambda: ledOff(2))
+on_02.grid(row = 0, column = 0)
+off_02.grid(row = 1, column = 0, pady = 24)
 
 root.mainloop()
 GPIO.cleanup()
